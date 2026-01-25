@@ -8,5 +8,16 @@ namespace MiniATM.Application
 {
     internal class ContaService
     {
+
+        /*
+         * 
+         * Depositar(decimal valor)
+
+Sacar(decimal valor)
+
+ObterSaldo()
+
+ObterExtrato()
+         */
     }
 }
