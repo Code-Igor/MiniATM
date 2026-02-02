@@ -1,10 +1,12 @@
 Mini ATM - Console Application
 
 Funcionalidades:
+- Criar Conta
 - Consultar saldo
+- Consultar conta
 - Depositar
 - Sacar
-- Ver extrato
+
 
 Tecnologias:
 - C#
