@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MiniATM.Domain;
+using MiniATM.Infrastructure.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,15 +11,63 @@ namespace MiniATM.Application
     internal class ContaService
     {
 
-        /*
-         * 
-         * Depositar(decimal valor)
+        private readonly ContaRepository _contaRepository;
 
-Sacar(decimal valor)
+        private ContaService _contaService; 
 
-ObterSaldo()
 
-ObterExtrato()
-         */
+        public ContaService(ContaRepository contaRepository)
+        {
+            _contaRepository = contaRepository;
+        }
+
+        public Conta EncontrarConta(int contaId)
+        {
+            var conta = _contaRepository.ObterPorId(contaId)
+                ?? throw new InvalidOperationException("Account not found.");
+            return conta;
+        } 
+
+        public Conta CriarConta(string numero)
+        {
+            var conta = new Conta(numero);
+            _contaRepository.Adicionar(conta);
+            return conta;
+        }
+
+        public void Depositar(int contaId, decimal valor) 
+        {
+            if (valor <= 0)
+                throw new ArgumentException("Withdraw value must be positive.");
+
+            var conta = _contaService.EncontrarConta(contaId);
+
+            conta.Depositar(valor);
+            _contaRepository.Atualizar(conta);
+        }
+
+
+        public void Sacar(decimal valor, int contaId) 
+        {
+            if (valor <= 0)
+                throw new ArgumentException("Withdraw value must be positive.");
+
+            var conta = _contaService.EncontrarConta(contaId);
+
+            conta.Sacar(valor);
+            _contaRepository.Atualizar(conta);
+        }
+
+        public decimal ObterSaldo(int contaId)
+        {
+            var conta = _contaService.EncontrarConta(contaId);
+            var saldo = conta.Saldo;
+            return saldo;
+        }
+
+        public Conta? ObterConta(int contaId)
+        {
+            return _contaRepository.ObterPorId(contaId);
+        }
     }
 }
