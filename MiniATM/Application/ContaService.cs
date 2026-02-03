@@ -21,13 +21,6 @@ namespace MiniATM.Application
             _contaRepository = contaRepository;
         }
 
-        public Conta EncontrarConta(int contaId)
-        {
-            var conta = _contaRepository.ObterPorId(contaId)
-                ?? throw new InvalidOperationException("Account not found.");
-            return conta;
-        } 
-
         public Conta CriarConta(string numero)
         {
             var conta = new Conta(numero);
@@ -40,7 +33,7 @@ namespace MiniATM.Application
             if (valor <= 0)
                 throw new ArgumentException("Withdraw value must be positive.");
 
-            var conta = _contaService.EncontrarConta(contaId);
+            var conta = _contaService.ObterConta(contaId);
 
             conta.Depositar(valor);
             _contaRepository.Atualizar(conta);
@@ -52,7 +45,7 @@ namespace MiniATM.Application
             if (valor <= 0)
                 throw new ArgumentException("Withdraw value must be positive.");
 
-            var conta = _contaService.EncontrarConta(contaId);
+            var conta = _contaService.ObterConta(contaId);
 
             conta.Sacar(valor);
             _contaRepository.Atualizar(conta);
@@ -60,7 +53,7 @@ namespace MiniATM.Application
 
         public decimal ObterSaldo(int contaId)
         {
-            var conta = _contaService.EncontrarConta(contaId);
+            var conta = _contaService.ObterConta(contaId);
             var saldo = conta.Saldo;
             return saldo;
         }
