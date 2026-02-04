@@ -1,5 +1,7 @@
 # Mini ATM - Console Application
 
+It´s a very small project that I did for practice.
+
 | Features                 | Technologies                     |
 |--------------------------|----------------------------------|
 | Create Account           | C#                               |
