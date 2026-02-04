@@ -26,6 +26,7 @@ catch (Exception ex)
 
 
 // metodos
+
 static void Pausar()
 {
     Console.WriteLine("\nPress any key to continue...");
@@ -33,32 +34,13 @@ static void Pausar()
 }
 
 
-
-static Conta CriarConta(ContaService contaService, string numero)
-{
-    var conta = contaService.CriarConta(numero);
-    return conta;
-}
-
-
-static decimal ConsultarSaldo(ContaService contaService, int contaId)
-{
-    return contaService.ObterSaldo(contaId);
-}
-
-static void Depositar(ContaService contaService, int contaId, decimal valor)
-{
-    contaService.Depositar(contaId, valor);
-}
- 
-
-
-// console 
+// console/programa rodando
 
 bool executar = true;
 
 while (executar)
 {
+    //primeira tela
     Console.Clear();
     Console.WriteLine("=== MINI ATM ===");
     Console.WriteLine("1 - Create Account");
@@ -73,12 +55,13 @@ while (executar)
     {
         switch (opcao)
         {
+            // create account
             case "1":
                 Console.Write("Please, give a number for your account: ");
                 string numeroConta = Console.ReadLine() ?? string.Empty;
                 if (!string.IsNullOrWhiteSpace(numeroConta))
                 {
-                    var conta = CriarConta(contaService, numeroConta);
+                    var conta = contaService.CriarConta(numeroConta);
 
                     Console.WriteLine("Account created with sucess, your Account id is: " + conta.Id);
                     Pausar();
@@ -91,12 +74,16 @@ while (executar)
                 }
                 break;
 
+                // acess account
             case "2":
 
                 Console.Write("Please, give your account Id: ");
                 string contaId = Console.ReadLine() ?? string.Empty;
                 if (int.TryParse(contaId, out int contaIdInt))
                 {
+
+                    // segunda tela
+
                     var conta = contaService.ObterConta(contaIdInt);
 
                     Console.WriteLine("Account Acessed");
@@ -113,18 +100,20 @@ while (executar)
                     {
                         switch (opcao)
                         {
+                            // view balance
                             case "1":
-                                var resultado = ConsultarSaldo(contaService, contaIdInt);
-                                Console.Write(resultado);
+                                
+                                Console.Write(contaService.ObterSaldo(contaIdInt));
                                 Pausar();
                                 break;
 
+                                // deposit
                             case "2":
                                 Console.Write("How many? ");
                                 string deposito = Console.ReadLine() ?? string.Empty;
                                 if (decimal.TryParse(deposito, out decimal valorDeposito))
                                 {
-                                    Depositar(contaService, contaIdInt, valorDeposito);
+                                    contaService.Depositar(contaIdInt, valorDeposito);
                                     Console.WriteLine("Deposit successful.");
                                 }
                                 else
@@ -134,6 +123,7 @@ while (executar)
                                 Pausar();
                                 break;                                      
 
+                                //withdraw
                             case "3":
                                 Console.Write("How many? ");
                                 string saque = Console.ReadLine() ?? string.Empty;
@@ -156,6 +146,7 @@ while (executar)
                                 Pausar();
                                 break;
 
+                                // exit
                             case "0":
                                 executar = false;
                                 break;
@@ -175,6 +166,8 @@ while (executar)
                 }
                 break;
 
+
+                // exit
             case "0":
                 executar = false;
                 break;
