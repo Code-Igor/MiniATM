@@ -1,18 +1,23 @@
-Mini ATM - Console Application
+# Mini ATM - Console Application
 
-Features:
+| Features                 | Technologies                          |
+|--------------------------|---------------------------------------|
+| Create Account               | C#                                 |
+| Access Account | .NET 8 |
+| View Balance                 | SQLite                            |
+| Deposit                   | Entity Framework Core                                |
+| Withdraw          |                              |
 
-- Create Account
-- Access Account
-- View Balance
-- Deposit
-- Withdraw
+:
+
+- 
+- 
+- 
+- 
+- 
 - Exit
 
-
-Technologies:
-
-- C#
-- .NET 8
-- SQLite
-- Entity Framework Core
+- 
+- 
+- 
+- 
