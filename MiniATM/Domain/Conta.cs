@@ -13,15 +13,21 @@ namespace MiniATM.Domain
         public decimal Saldo { get; private set; }
         public ICollection<Transacao> Transacoes { get; private set; }
 
-        private Conta() { } // EF Core
+        private Conta() 
+        {
+            Numero = string.Empty;
+            Transacoes = new List<Transacao>();
+            saque = null!;
+        }
 
-        private Transacao saque;
+        private Transacao saque = null!;
 
         public Conta(string numero)
         {
             Numero = numero;
             Saldo = 0;
             Transacoes = new List<Transacao>();
+            saque = null!;
         }
 
         public void Depositar(decimal valor)

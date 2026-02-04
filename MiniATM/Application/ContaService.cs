@@ -13,8 +13,6 @@ namespace MiniATM.Application
 
         private readonly ContaRepository _contaRepository;
 
-        private ContaService _contaService; 
-
 
         public ContaService(ContaRepository contaRepository)
         {
@@ -25,42 +23,47 @@ namespace MiniATM.Application
         {
             var conta = new Conta(numero);
             _contaRepository.Adicionar(conta);
+            _contaRepository.Salvar();
             return conta;
         }
 
-        public void Depositar(int contaId, decimal valor) 
+
+        public void Depositar(int contaId, decimal valor)
         {
             if (valor <= 0)
                 throw new ArgumentException("Withdraw value must be positive.");
 
-            var conta = _contaService.ObterConta(contaId);
+            var conta = ObterConta(contaId);
 
             conta.Depositar(valor);
             _contaRepository.Atualizar(conta);
+            _contaRepository.Salvar();
         }
 
 
-        public void Sacar(decimal valor, int contaId) 
+        public void Sacar(decimal valor, int contaId)
         {
             if (valor <= 0)
                 throw new ArgumentException("Withdraw value must be positive.");
 
-            var conta = _contaService.ObterConta(contaId);
+            var conta = ObterConta(contaId);
 
             conta.Sacar(valor);
             _contaRepository.Atualizar(conta);
+            _contaRepository.Salvar();
         }
 
         public decimal ObterSaldo(int contaId)
         {
-            var conta = _contaService.ObterConta(contaId);
+            var conta = ObterConta(contaId);
             var saldo = conta.Saldo;
             return saldo;
         }
 
-        public Conta? ObterConta(int contaId)
+        public Conta ObterConta(int contaId)
         {
-            return _contaRepository.ObterPorId(contaId);
+            return _contaRepository.ObterPorId(contaId)
+                ?? throw new InvalidOperationException("Account not found");
         }
     }
 }
